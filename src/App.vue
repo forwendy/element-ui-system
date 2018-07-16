@@ -16,7 +16,7 @@
         <el-container style="height: 100%;">
           <!-- tabs 标签页区域 - 可用于打开树型结构图 / 对比数据 -->
           <el-aside style="width: auto;height: 100%;">
-              <TabsPanel></TabsPanel>
+            <TabsPanel></TabsPanel>
           </el-aside>
           <el-main>
             <router-view/>
@@ -33,6 +33,11 @@ import UserMenu from './components/UserMenu'
 import Navigation from './components/Navigation'
 import TabsPanel from './components/TabsPanel'
 export default {
+  created () {
+    this.$api.get('/home/getCitys', null, r => {
+      console.log(r)
+    })
+  },
   name: 'App',
   components: {
     Navigation,

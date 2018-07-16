@@ -10,7 +10,14 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    // 配置代理
+    proxyTable: {
+        '/makerstar_portal/**': {
+            target: 'http://123.207.114.182:9999', // 你接口的域名
+            secure: false,
+            changeOrigin: false,
+        }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
