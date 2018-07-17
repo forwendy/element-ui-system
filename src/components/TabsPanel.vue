@@ -1,100 +1,67 @@
 <template>
-<div class="tabs-panel">
-  <el-tabs v-if="editableTabs.length != 0" v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
-    <el-tab-pane v-for="item in editableTabs" :key="item.name" :label="item.title" :name="item.name">
-      <el-tree :data="item.content" :props="item.defaultProps" @node-click="handleNodeClick"></el-tree>
-    </el-tab-pane>
-  </el-tabs>
+<div class="tabs-panel fix" v-show="list.length != 0">
+  <div class="tabs-link" :class="{active: item.name == value}" v-for="item in list"><span @click="to" :path="item.path" :name="item.name">{{item.title}}</span><i @click="removeTab(item.name)" class="el-icon-close"></i></div>
 </div>
 </template>
 
 <script>
 export default {
-  data () {
+  created() {
+    const data = this.$data;
+    console.log(data.value)
+    for (var i = 0; i < data.list.length; i++) {
+      if (data.list[i].name == data.value) {
+        this.$router.push(data.list[i].path)
+      }
+    }
+  },
+  data() {
     return {
-      editableTabsValue: '1',
-      editableTabs: [{
-        title: '查看空间结构',
+      value: '1',
+      list: [{
+        title: '空间列表',
         name: '1',
-        defaultProps: {
-          children: 'children',
-          label: 'label'
-        },
-        content: [{
-          id: 1,
-          label: '创意天地北站',
-          children: [{
-            id: 4,
-            label: '3楼',
-            children: [{
-              id: 9,
-              label: '三级 1-1-1'
-            }, {
-              id: 10,
-              label: '三级 1-1-2'
-            }]
-          }]
-        }, {
-          id: 2,
-          label: '创意天地南站',
-          children: [{
-            id: 5,
-            label: '3楼'
-          }, {
-            id: 6,
-            label: '4楼',
-            children: [{
-              id: 9,
-              label: '401'
-            }, {
-              id: 10,
-              label: '402'
-            }]
-          }]
-        }, {
-          id: 3,
-          label: '书城路站',
-          children: [{
-            id: 7,
-            label: '二级 3-1'
-          }, {
-            id: 8,
-            label: '二级 3-2'
-          }]
-        }]
-      }],
-      tabIndex: 2
+        path: '/space'
+      }, {
+        title: '空间详情',
+        name: '2',
+        path: '/space/detail/12'
+      }]
     }
   },
   methods: {
-    addTab (targetName) {
-      let newTabName = ++this.tabIndex + ''
-      this.editableTabs.push({
-        title: 'New Tab',
-        name: newTabName,
-        content: 'New Tab content'
-      })
-      this.editableTabsValue = newTabName
+    to(e) {
+      this.value = e.currentTarget.getAttribute('name')
+      this.$router.push(e.currentTarget.getAttribute('path'))
     },
-    removeTab (targetName) {
-      let tabs = this.editableTabs
-      let activeName = this.editableTabsValue
+    addTab(targetName) {
+      this.list.push({
+        title: '空间详情',
+        name: '2',
+        path: '/space/detail/12'
+      })
+      this.value = 2
+    },
+    removeTab(targetName) {
+      let _this = this
+      let tabs = this.list
+      let activeName = this.value
       if (activeName === targetName) {
+        let path = '';
         tabs.forEach((tab, index) => {
           if (tab.name === targetName) {
             let nextTab = tabs[index + 1] || tabs[index - 1]
             if (nextTab) {
               activeName = nextTab.name
+              path = nextTab.path
             }
           }
         })
+        this.$router.replace(path)
       }
 
-      this.editableTabsValue = activeName
-      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
-    },
-    handleNodeClick (data) {
-      console.log(data)
+      this.value = activeName
+      this.list = tabs.filter(tab => tab.name !== targetName)
     }
   }
 }
@@ -102,15 +69,66 @@ export default {
 
 <style>
 .tabs-panel {
-  height: 100%;
-  border-right: 1px solid #ddd;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
-.el-tabs__header {
-  padding-top: 20px;
+.tabs-link {
+  float: left;
+  padding: 0 20px;
+  border: 1px solid #ddd;
+  margin-bottom: -1px;
+  margin-left: -1px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.el-tabs__nav-scroll {
-  padding: 0 15px;
+.tabs-link span {
+  display: inline-block;
+  line-height: 36px;
+}
+
+.tabs-link:first-child {
+  border-radius: 4px 0 0 0;
+}
+
+.tabs-link:last-child {
+  border-radius: 0 4px 0 0;
+}
+
+.tabs-link.active,
+.tabs-link:hover {
+  color: #409eff;
+}
+
+.tabs-link:hover {
+  padding-left: 12px;
+  padding-right: 11px;
+}
+
+.tabs-link:hover .el-icon-close {
+  font-size: 10px;
+  display: inline-block;
+}
+
+.el-icon-close {
+  vertical-align: middle;
+  display: none;
+  margin-left: 5px;
+  padding: 1px;
+}
+
+.el-icon-close:hover {
+  border-radius: 50%;
+  background-color: #ddd;
+  color: #fff;
+}
+
+.tabs-link.active {
+  border-bottom-color: #fff;
 }
 </style>

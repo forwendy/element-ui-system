@@ -1,48 +1,37 @@
 <template>
 <div id="app">
   <el-container>
-    <el-header>
-      <img src="./assets/logo.png" alt="ovu-logo" class="header-logo">
-      <!-- 用户菜单 -->
-      <UserMenu></UserMenu>
+    <!-- top -->
+    <el-header id="top">
+      <top></top>
     </el-header>
+    <!-- top -->
     <el-container>
+      <!-- siderbar -->
       <el-aside style="width: auto;">
-        <!-- 主导航菜单 -->
-        <Navigation></Navigation>
+        <SiderBar></SiderBar>
       </el-aside>
+      <!-- siderbar -->
+      <!-- main -->
       <el-main style="padding:0;">
-        <!-- 主内容区域 -->
-        <el-container style="height: 100%;">
-          <!-- tabs 标签页区域 - 可用于打开树型结构图 / 对比数据 -->
-          <el-aside style="width: auto;height: 100%;">
-            <TabsPanel></TabsPanel>
-          </el-aside>
-          <el-main>
-            <router-view/>
-          </el-main>
-        </el-container>
+        <Main></Main>
       </el-main>
+      <!-- main -->
     </el-container>
   </el-container>
 </div>
 </template>
 
 <script>
-import UserMenu from './components/UserMenu'
-import Navigation from './components/Navigation'
-import TabsPanel from './components/TabsPanel'
+import Top from './views/layout/Top'
+import SiderBar from './views/layout/SiderBar'
+import Main from './views/layout/Main'
 export default {
-  created () {
-    this.$api.get('/home/getCitys', null, r => {
-      console.log(r)
-    })
-  },
   name: 'App',
   components: {
-    Navigation,
-    UserMenu,
-    TabsPanel
+    Top,
+    SiderBar,
+    Main
   }
 }
 </script>
@@ -53,15 +42,8 @@ export default {
 #app>.el-container {
   height: 100%;
 }
-
-.el-header {
-  line-height: 58px;
-  background: #00ce9b;
-}
-
-.header-logo {
-  display: inline-block;
-  vertical-align: middle;
-  width: 200px;
+#top{
+      line-height: 58px;
+      background: #00ce9b;
 }
 </style>

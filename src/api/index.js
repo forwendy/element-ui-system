@@ -31,7 +31,7 @@ function apiAxios (method, url, params, success, failure) {
     withCredentials: false
   }).then(function (res) {
     console.log(res)
-    if (res.data.code === '0000') {
+    if (res.status === 200) {
       if (success) {
         success(res.data)
       }
