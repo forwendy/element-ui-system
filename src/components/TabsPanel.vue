@@ -100,6 +100,10 @@ export default {
   border-radius: 0 4px 0 0;
 }
 
+.tabs-link:first-child:last-child {
+  border-radius: 4px 4px 0 0;
+}
+
 .tabs-link.active,
 .tabs-link:hover {
   color: #409eff;
