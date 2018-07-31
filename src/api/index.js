@@ -31,22 +31,23 @@ function apiAxios (method, url, params, success, failure) {
     withCredentials: false
   }).then(function (res) {
     console.log(res)
-    if (res.status === 200) {
-      if (success) {
-        success(res.data)
-      }
-    } else {
-      if (failure) {
-        failure(res.data)
-      } else {
-        window.alert('error: ' + JSON.stringify(res.data))
-      }
-    }
+    // if (res.status === 200) {
+    //   if (success) {
+    //     success(res.data)
+    //   }
+    // } else {
+    //   if (failure) {
+    //     failure(res.data)
+    //   } else {
+    //     window.alert('error: ' + JSON.stringify(res.data))
+    //   }
+    // }
   }).catch(function (err) {
-    let res = err.response
-    if (err) {
-      window.alert('api error, HTTP CODE: ' + res.status)
-    }
+    console.log(err)
+    // let res = err.response
+    // if (err) {
+    //   window.alert('api error, HTTP CODE: ' + res.status)
+    // }
   })
 }
 

@@ -1,67 +1,76 @@
 <template>
-<div class="tabs-panel fix" v-show="list.length != 0">
-  <div class="tabs-link" :class="{active: item.name == value}" v-for="item in list"><span @click="to" :path="item.path" :name="item.name">{{item.title}}</span><i @click="removeTab(item.name)" class="el-icon-close"></i></div>
-</div>
+<!-- 主内容区域 -->
+<el-container style="height: 100%;" class="main">
+  <el-header style="height: auto;">
+    <div class="tabs-panel fix" v-show="list.length != 0">
+      <div class="tabs-link" :class="{active: item.id == showId}" v-for="item in list">
+        <span @click="to" :path="item.path" :id="item.id">{{item.title}}</span>
+        <i @click="removeTab(item.id)" class="el-icon-close"></i>
+      </div>
+    </div>
+  </el-header>
+  <el-main>
+    <router-view></router-view>
+  </el-main>
+</el-container>
 </template>
 
 <script>
+import {
+  mapState,
+  mapGetters,
+  mapMutations
+} from 'vuex'
 export default {
   created() {
-    const data = this.$data;
-    console.log(data.value)
-    for (var i = 0; i < data.list.length; i++) {
-      if (data.list[i].name == data.value) {
-        this.$router.push(data.list[i].path)
-      }
-    }
+    // const data = this.$data;
+    // for (var i = 0; i < data.list.length; i++) {
+    //   if (data.list[i].name == data.showId) {
+    //     this.$router.push(data.list[i].path)
+    //   }
+    // }
+  },
+  props: {
+
   },
   data() {
     return {
-      value: '1',
-      list: [{
-        title: '空间列表',
-        name: '1',
-        path: '/space'
-      }, {
-        title: '空间详情',
-        name: '2',
-        path: '/space/detail/12'
-      }]
+      // showId: '1',
+      // list: [{
+      //   title: '空间列表',
+      //   id: '1',
+      //   path: '/space'
+      // }, {
+      //   title: '空间详情',
+      //   id: '2',
+      //   path: '/space/detail/12'
+      // }]
+    }
+  },
+  computed: {
+    ...mapGetters({
+        list:  'tabs/getTabs'
+    }),
+    showId() {
+      // 根据路由规则获取
+      const path = this.$route.path.split('/')[1]
+      const item = this.list.find(item => item.path === path)
+      if (!item) {
+        return;
+      } else {
+        return item.id
+      }
     }
   },
   methods: {
+    ...mapMutations('tabs', [
+      'removeItem'
+    ]),
     to(e) {
-      this.value = e.currentTarget.getAttribute('name')
       this.$router.push(e.currentTarget.getAttribute('path'))
     },
-    addTab(targetName) {
-      this.list.push({
-        title: '空间详情',
-        name: '2',
-        path: '/space/detail/12'
-      })
-      this.value = 2
-    },
-    removeTab(targetName) {
-      let _this = this
-      let tabs = this.list
-      let activeName = this.value
-      if (activeName === targetName) {
-        let path = '';
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            let nextTab = tabs[index + 1] || tabs[index - 1]
-            if (nextTab) {
-              activeName = nextTab.name
-              path = nextTab.path
-            }
-          }
-        })
-        this.$router.replace(path)
-      }
-
-      this.value = activeName
-      this.list = tabs.filter(tab => tab.name !== targetName)
+    removeTab(id) {
+      this.removeItem(id)
     }
   }
 }

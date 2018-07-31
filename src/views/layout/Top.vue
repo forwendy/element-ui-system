@@ -9,11 +9,6 @@
 <script>
 import UserMenu from '@/components/UserMenu'
 export default {
-  created () {
-    this.$api.get('/news', null, r => {
-        console.log(r)
-    })
-  },
   name: 'Top',
   components: {
     UserMenu

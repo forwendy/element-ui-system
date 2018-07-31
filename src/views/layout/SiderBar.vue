@@ -15,7 +15,7 @@ export default {
   components: {
     Menu
   },
-  data () {
+  data() {
     return {
       isCollapse: true
     }

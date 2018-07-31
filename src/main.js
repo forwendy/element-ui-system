@@ -2,7 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+// 引入 vue-router
 import router from './router'
+// 引入 vuex store
+import store from './store'
 // 引入API文件
 import api from './api/index.js'
 // 引入 mockjs
@@ -20,6 +23,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
     App
   },
