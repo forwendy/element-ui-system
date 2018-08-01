@@ -28,3 +28,8 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+
+## 用路由实现tabs新增切换（vue-route & vuex）
+路由切换会更改路径地址
+用push方法跳转路径浏览器会记录路径，在进行前进后退操作时会有影响。

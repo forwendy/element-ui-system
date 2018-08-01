@@ -55,8 +55,9 @@ export default {
       // 根据路由规则获取
       const path = this.$route.path.split('/')[1]
       const item = this.list.find(item => item.path === path)
-      if (!item) {
-        return;
+      if (!item && this.list.length != 0) {
+        this.$router.replace(this.list[0].path)
+        return this.list[0].id
       } else {
         return item.id
       }
@@ -67,7 +68,7 @@ export default {
       'removeItem'
     ]),
     to(e) {
-      this.$router.push(e.currentTarget.getAttribute('path'))
+      this.$router.replace(e.currentTarget.getAttribute('path'))
     },
     removeTab(id) {
       this.removeItem(id)

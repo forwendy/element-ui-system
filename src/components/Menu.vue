@@ -62,7 +62,7 @@ export default {
     ]),
     addTabs(obj) {
       this.addMenuToTabs(obj)
-      this.$router.push(obj.path)
+      this.$router.replace(obj.path)
     },
     handleOpen(key, keyPath) {
       //console.log(key, keyPath)

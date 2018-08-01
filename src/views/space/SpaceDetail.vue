@@ -1,5 +1,6 @@
 <template>
 <div class="space-detail">
+    {{$route.params.id}}
 </div>
 </template>
 
